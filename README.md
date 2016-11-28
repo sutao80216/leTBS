@@ -1,2 +1,2 @@
 # LeTBS Github page
-Heya ~
+https://lecodemv.github.io/leTBS/
