@@ -3,17 +3,16 @@
 # LeTBS: Win Conditions
 # LeTBS_WinConditions.js
 # By Lecode
-# Version 1.0
+# Version 1.01
 #-----------------------------------------------------------------------------
 # TERMS OF USE
 #-----------------------------------------------------------------------------
-# This plugin is under the MIT License.
-# (http://choosealicense.com/licenses/mit/)
-# In addition, you should keep this header.
+# https://github.com/LecodeMV/leTBS/blob/master/LICENSE.txt
 #-----------------------------------------------------------------------------
 # Version History
 #-----------------------------------------------------------------------------
 # - 1.0 : Initial release
+# - 1.01 : Defeat is now based on actors in battle and not the whole party (bugfix)
 #=============================================================================
 */
 var Imported = Imported || {};
@@ -24,7 +23,7 @@ Lecode.S_TBS.WinConditions = {};
 /*:
  * @plugindesc Add a win condition system
  * @author Lecode
- * @version 1.0
+ * @version 1.01
  *
  * @help
  * See the documentation
@@ -341,7 +340,9 @@ LeTBSWinCds.setFlag = function(flagId, on) {
 * BattleManagerTBS
 -------------------------------------------------------------------------*/
 BattleManagerTBS.canPrepareDefeat = function() {
-    return $gameParty.isAllDead() || LeTBSWinCds.checkDefeat();
+    return this.allyEntities().every(function(entity) {
+        return entity.battler().isDead();
+    }) || LeTBSWinCds.checkDefeat();
 };
 
 BattleManagerTBS.canPrepareVictory = function() {
